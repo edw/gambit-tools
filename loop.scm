@@ -106,6 +106,9 @@
                  ((eq? key let:)
                   `(let ,val
                      ,(for-impl rest form iter in out)))
+                 ((eq? key let*:)
+                  `(let* ,val
+                     ,(for-impl rest form iter in out)))
                  (else
                   (let ((new-iter (gensym 'for-iter))
                         (new-in (gensym 'for-in))
@@ -144,6 +147,9 @@
                   (,iter (cursor-next! ,in))))
             ((eq? key let:)
              `(let ,val
+                ,(loop-impl rest forms iter in)))
+            ((eq? key let*:)
+             `(let* ,val
                 ,(loop-impl rest forms iter in)))
             (else
              (let ((new-iter (gensym 'for-iter))
