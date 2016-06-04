@@ -62,20 +62,3 @@
   brot-bitmap)
 
 ;; (brot 8 8 6.77636708120639e-4 -1.57497160008726 5.0e-1 0.0)
-
-
-;; (define (iter-brot cx cy begin-scale scale-step begin-theta theta-step iters)
-;;   (do ((scale begin-scale (fl* scale scale-step))
-;;        (theta begin-theta (mod2pi (fl+ theta theta-step)))
-;;        (i 0 (fx+ i 1)))
-;;       ((fx= i iters))
-;;     (brot cx cy scale theta)))
-
-;; (define (test-iter-brot)
-;;   (framebuffer-init)
-;;   (framebuffer-set-lowlight! #t)
-;;   (do () (#f)
-;;     (iter-brot 6.77636708120639e-4 -1.57497160008726
-;; 	       1.0e1 0.995
-;; 	       0.0 0.1
-;; 	       4500)))
