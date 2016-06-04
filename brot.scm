@@ -27,8 +27,8 @@
 (define brot-bitmap (make-bitmap brot-width brot-height))
 
 (define (brot cx cy scale theta)
-  (loop ((let*: ((cx-pxs (fl/ (fl- (fixnum->flonum w) 1.0) 2.0))
-                 (cy-pxs (fl/ (fl- (fixnum->flonum h) 1.0) 2.0))
+  (loop ((let*: ((cx-pxs (fl/ (fl- (fixnum->flonum brot-width) 1.0) 2.0))
+                 (cy-pxs (fl/ (fl- (fixnum->flonum brot-height) 1.0) 2.0))
                  (sin-theta (flsin theta))
                  (cos-theta (flcos theta))))
          (y brot-height)
