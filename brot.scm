@@ -1,0 +1,81 @@
+(declare (mostly-fixnum)
+	 (standard-bindings)
+	 (extended-bindings)
+	 (run-time-bindings)
+	 (not safe))
+
+(include "loop.scm")
+(include "bitmap.scm")
+
+(define color-black 0)
+
+(define max-iters 256)
+
+(define (cell-color cr ci)
+  (do ((zr 0.0 (fl+ (fl- (fl* zr zr) (fl* zi zi)) cr))
+       (zi 0.0 (fl+ (fl* 2.0 zr zi) ci))
+       (i 0 (fx+ i 1)))
+      ((or (fx= i max-iters)
+	   (fl> (fl+ (fl* zr zr) (fl* zi zi)) (flsquare 2.0)))
+       (let ((iters-norm (fl/ (fixnum->flonum (fx- max-iters i))
+			      (fixnum->flonum max-iters))))
+	 (hsv->val (fl* pi*2 iters-norm) 1.0 iters-norm)))))
+
+(define brot-bitmap (make-bitmap 8 8))
+
+(define (brot w h cx cy scale theta)
+  (let* ((cx-pxs (fl/ (fl- (fixnum->flonum w) 1.0) 2.0))
+         (cy-pxs (fl/ (fl- (fixnum->flonum h) 1.0) 2.0))
+	 (sin-theta (flsin theta))
+	 (cos-theta (flcos theta)))
+    (let iter-y ((y 0))
+      (if (fx< y h)
+          (let* ((i0 (fl* scale (fl- (fixnum->flonum y) cy-pxs))))
+            (let iter-x ((x 0))
+              (if (fx< x w)
+                  (let* ((j0 (fl* scale (fl- (fixnum->flonum x) cx-pxs)))
+			 (i1 (fl- (fl* cos-theta i0) (fl* sin-theta j0)))
+			 (j1 (fl+ (fl* cos-theta j0) (fl* sin-theta i0)))
+			 (i (fl+ cy i1))
+			 (j (fl+ cx j1)))
+                    (bitmap-plot brot-bitmap 8 8 x y (cell-color i j))
+		    (iter-x (fx+ x 1)))
+		  (iter-y (fx+ y 1)))))
+          brot-bitmap
+          ;; (framebuffer-blit brot-bitmap 8 8 0 0 0)
+          ))))
+
+(define (brot w h cx cy scale theta)
+  (loop ((let*: ((cx-pxs (fl/ (fl- (fixnum->flonum w) 1.0) 2.0))
+                 (cy-pxs (fl/ (fl- (fixnum->flonum h) 1.0) 2.0))
+                 (sin-theta (flsin theta))
+                 (cos-theta (flcos theta))))
+         (y h)
+         (let: ((i0 (fl* scale (fl- (fixnum->flonum y) cy-pxs)))))
+         (x w)
+         (let*: ((j0 (fl* scale (fl- (fixnum->flonum x) cx-pxs)))
+                 (i1 (fl- (fl* cos-theta i0) (fl* sin-theta j0)))
+                 (j1 (fl+ (fl* cos-theta j0) (fl* sin-theta i0)))
+                 (i (fl+ cy i1))
+                 (j (fl+ cx j1)))))
+    (bitmap-plot brot-bitmap 8 8 x y (cell-color i j)))
+  brot-bitmap)
+
+;; (brot 8 8 6.77636708120639e-4 -1.57497160008726 5.0e-1 0.0)
+
+
+;; (define (iter-brot cx cy begin-scale scale-step begin-theta theta-step iters)
+;;   (do ((scale begin-scale (fl* scale scale-step))
+;;        (theta begin-theta (mod2pi (fl+ theta theta-step)))
+;;        (i 0 (fx+ i 1)))
+;;       ((fx= i iters))
+;;     (brot cx cy scale theta)))
+
+;; (define (test-iter-brot)
+;;   (framebuffer-init)
+;;   (framebuffer-set-lowlight! #t)
+;;   (do () (#f)
+;;     (iter-brot 6.77636708120639e-4 -1.57497160008726
+;; 	       1.0e1 0.995
+;; 	       0.0 0.1
+;; 	       4500)))
