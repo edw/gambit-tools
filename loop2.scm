@@ -11,7 +11,7 @@
 ;;; (IF: TEST)
 ;;; (PERFORM: FORM ...)
 ;;; (LET: [NAME FORM] ...)
-;;; (COLLECT: NAME)
+;;; (CONS: NAME KONS-PROC)
 ;;;
 ;;; and some shortcuts
 ;;;
