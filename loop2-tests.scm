@@ -33,11 +33,9 @@
     (reverse out)))
 
 (define (loop-for)
-  (let ((out '()))
-    (loop ((for: a 0.0 (< a 5) (+ a (atan 1)))
-           (cons: out))
-      a)
-    (reverse out)))
+  (loop ((for: a 0.0 (< a 5) (+ a (atan 1))))
+    (display a)
+    (newline)))
 
 (define (loop-cons-simple)
   (let ((out '()))
@@ -45,3 +43,12 @@
            (cons: out))
       x)
     (reverse out)))
+
+(define (loop-sum)
+  (let ((sum 0))
+    (loop ((for: x 0 (< x 10) (+ x 1))
+           (cons: sum +))
+      x)
+    sum))
+
+
