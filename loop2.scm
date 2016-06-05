@@ -4,13 +4,13 @@
 ;;;
 ;;; Fundamental operators:
 ;;;
-;;; (FOR: NAME INITIAL STEP CONTINUE?)
-;;; (SEQ: NAME LIST)
-;;; (SEQ#: NAME VECTOR)
+;;; (FOR: [NAME INITIAL STEP CONTINUE?] ...)
+;;; (SEQ: [NAME LIST] ...)
+;;; (SEQ#: [NAME VECTOR] ...)
 ;;; (WHILE: TEST)
 ;;; (IF: TEST)
 ;;; (PERFORM: FORM ...)
-;;; (LET: NAME FORM)
+;;; (LET: [NAME FORM] ...)
 ;;; (COLLECT: NAME)
 ;;;
 ;;; and some shortcuts
