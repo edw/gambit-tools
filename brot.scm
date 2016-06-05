@@ -4,7 +4,7 @@
 	 (run-time-bindings)
 	 (not safe))
 
-(include "loop.scm")
+(include "loop2.scm")
 (include "bitmap.scm")
 
 (define color-black 0)
