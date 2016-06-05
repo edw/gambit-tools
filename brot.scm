@@ -1,7 +1,6 @@
 (declare (mostly-fixnum)
 	 (standard-bindings)
 	 (extended-bindings)
-	 (run-time-bindings)
 	 (not safe))
 
 (include "loop2.scm")
