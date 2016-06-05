@@ -90,20 +90,3 @@
   (loop-impl bindings forms
              '(lambda (_) (values))
              '(cursor '())))
-
-;; (for ((a '(1 2 3))
-;;       (b '(1 10 100))
-;;       (let: ((pi (* 4 (atan 1)))))
-;;       (when: (= b 10))
-;;       (while: (< b 90)))
-;;   (* 2 a b pi))
-
-;; (loop ((a '(1 2 3))
-;;        (b '(1 10 100))
-;;        (let: ((pi (* 4 (atan 1)))))
-;;        (when: (= b 10))
-;;        (while: (< b 90)))
-;;   (display (* 2 a b pi))
-;;   (newline))
-
-;;; (for ((a 4 0 (atan 1))) a)
