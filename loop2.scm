@@ -35,20 +35,20 @@
                       (op-args (cdr binding)))
                  (case op
                    ((cons:) (let ((x (car op-args))
-                                     (kons (if (null? (cdr op-args))
-                                               'cons (cadr op-args))))
-                                 (loop-impl
-                                  bindings
-                                  `((set! ,x (,kons (begin ,@body) ,x))))))
-                   ((for:) (let* ((iter (gensym 'loop-do))
+                                  (kons (if (null? (cdr op-args))
+                                            'cons (cadr op-args))))
+                              (loop-impl
+                               bindings
+                               `((set! ,x (,kons (begin ,@body) ,x))))))
+                   ((for:) (let ((iter (gensym 'loop-do))
                                  (x (car op-args))
                                  (first (cadr op-args))
                                  (test? (caddr op-args))
                                  (step (cadddr op-args)))
                              `(let ,iter ((,x ,first))
-                                  (if ,test?
-                                      (begin ,(loop-impl bindings body)
-                                             (,iter ,step))))))
+                                   (if ,test?
+                                       (begin ,(loop-impl bindings body)
+                                              (,iter ,step))))))
                    ((seq:) (let ((iter (gensym 'loop-seq))
                                  (x (car op-args))
                                  (xs (gensym 'loop-xs))
@@ -79,16 +79,16 @@
                                   ,(loop-impl bindings body)
                                   (,k)))
                    ((if:) `(if ,(car op-args)
-                                   ,(loop-impl bindings body)))
+                               ,(loop-impl bindings body)))
                    ((when:) (loop-impl `((perform:
                                           (if ,(car op-args)
-                                              (begin ,@(cdr op-args)))
-                                          ,@bindings))
+                                              (begin ,@(cdr op-args))))
+                                         ,@bindings)
                                        body))
                    ((if-not:) (loop-impl
-                                `((filter: (not ,(car op-args)))
-                                  ,@bindings)
-                                body))
+                               `((filter: (not ,(car op-args)))
+                                 ,@bindings)
+                               body))
                    ((until:) (loop-impl
                               `((while: (not ,(car op-args))) ,@bindings)
                               body))
