@@ -3,7 +3,7 @@
 	 (extended-bindings)
 	 (not safe))
 
-(include "loop2.scm")
+(include "loop.scm")
 (include "bitmap.scm")
 
 (define color-black 0)
