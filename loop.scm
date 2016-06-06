@@ -9,13 +9,13 @@
 ;;; (SEQ#: [NAME VECTOR] ...)
 ;;; (WHILE: TEST)
 ;;; (IF: TEST)
-;;; (PERFORM: FORM ...)
+;;; (EVAL: FORM ...)
 ;;; (LET: [NAME FORM] ...)
 ;;; (CONS: NAME KONS-PROC)
 ;;;
 ;;; and some shortcuts
 ;;;
-;;; (WHEN: X FORM ...)       aka (PERFORM: (if X (begin FORM ...)))
+;;; (WHEN: X FORM ...)       aka (EVAL: (if X (begin FORM ...)))
 ;;; (IF-NOT: X)              aka (IF: (not X))
 ;;; (UNTIL: X)               aka (WHILE (not X))
 ;;; (WHEN-NOT: X FORM ...)   aka (WHEN: (not X) FORM ...)
@@ -94,14 +94,16 @@
                                      (loop-impl bindings body)
                                      (loop-impl `((let: ,@rest) ,@bindings)
                                                 body)))))
-                   ((perform:) `(begin ,@op-args
+                   ((eval:) `(begin ,@op-args
                                        ,(loop-impl bindings body)))
+                   ((after:) `(begin ,(loop-impl bindings body)
+                                     ,@op-args))
                    ((while:) `(if ,(car op-args)
                                   ,(loop-impl bindings body)
                                   (,k)))
                    ((if:) `(if ,(car op-args)
                                ,(loop-impl bindings body)))
-                   ((when:) (loop-impl `((perform:
+                   ((when:) (loop-impl `((eval:
                                           (if ,(car op-args)
                                               (begin ,@(cdr op-args))))
                                          ,@bindings)
