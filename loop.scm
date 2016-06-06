@@ -118,3 +118,34 @@
                                    ,@bindings)
                                  body))
                    (else (error "Unknown loop operator"))))))))))
+
+;;; ARROWS
+
+(define-macro (-> x . forms)
+  (if (null? forms)
+      x
+      (let* ((form (car forms))
+             (proc (car form))
+             (args (cdr form))
+             (forms (cdr forms)))
+        `(-> (,proc ,x ,@args) ,@forms))))
+
+(define-macro (--> x . forms)
+  (if (null? forms)
+      x
+      (let* ((form (car forms))
+             (proc (car form))
+             (args (cdr form))
+             (forms (cdr forms)))
+        `(--> (,proc ,@args ,x) ,@forms))))
+
+;;; BASHING ON OBJECTS
+
+(define-macro (doto x . forms)
+  (if (null? forms)
+      x
+      (let* ((form (car forms))
+             (proc (car form))
+             (args (cdr form))
+             (forms (cdr forms)))
+        `(begin (,proc ,x ,@args) (doto ,x ,@forms)))))
