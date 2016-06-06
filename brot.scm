@@ -22,7 +22,6 @@
 
 (define brot-width 8)
 (define brot-height 8)
-
 (define brot-bitmap (make-bitmap brot-width brot-height))
 
 (define (brot cx cy scale theta)
@@ -38,7 +37,7 @@
                j1 (fl+ (fl* cos-theta j0) (fl* sin-theta i0))
                i (fl+ cy i1)
                j (fl+ cx j1)))
-    (bitmap-plot brot-bitmap brot-width brot-height x y (cell-color i j)))
+    (bitmap-plot brot-bitmap x y (cell-color i j)))
   brot-bitmap)
 
 ;; (brot 6.77636708120639e-4 -1.57497160008726 5.0e-1 0.0)
