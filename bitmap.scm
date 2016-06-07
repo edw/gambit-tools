@@ -23,6 +23,7 @@
          (after: (display "|#") (newline))
          (for: x 0 (< x w) (+ x 1))
          (when: (> x 0) (display " "))
+         (when: (zero? (modulo x 4)) (display " "))
          (eval: (display (bitmap-sample bm x y))))))
 
 (define (scale n max+1)
